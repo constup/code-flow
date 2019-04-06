@@ -11,8 +11,8 @@
     ],
     "autoload": {
         "psr-4": {
-            "Constup\\Automatrix\\": "src",
-            "Constup\\Automatrix\\Tests\\": "tests"
+            "Constup\\CodeFlow\\": "src",
+            "Constup\\CodeFlow\\Tests\\": "tests"
         }
     },
     "minimum-stability": "stable",
