@@ -1,0 +1,20 @@
+{
+    "name": "constup/code-flow",
+    "description": "Code flow monitoring and control for PHP.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Constup",
+            "email": "16638173+constup@users.noreply.github.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Constup\\Automatrix\\": "src",
+            "Constup\\Automatrix\\Tests\\": "tests"
+        }
+    },
+    "minimum-stability": "stable",
+    "require": {}
+}
