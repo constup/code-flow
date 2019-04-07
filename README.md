@@ -10,6 +10,28 @@ to be used as:
 
 The default class is `GenericFlowMessage`. You can use it through `GenericFlowMessageInterface`.
 
+## Example use
+
+
+### Example #1 - Handling exceptions
+```php
+
+try {
+...
+} catch (\Exception $e) {
+    return new GenericFlowMessage(
+        false,
+        true,
+        $e,
+        'EXC-001',
+        'An exception has occured',
+        LogLevel::CRITICAL,
+        true
+    );
+}
+
+```
+
 ## Code Flow Classes
 
 ### `GenericFlowMessage` (`GenericFlowMessageInterface`)
