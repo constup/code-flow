@@ -36,7 +36,7 @@ class GenericFlowMessage implements GenericFlowMessageInterface
      * @param string $log_level
      * @param string $stack_trace
      */
-    public function __construct(bool $success, bool $exception, object $exception_object, string $code, string $message, string $log_level, string $stack_trace)
+    public function __construct(bool $success, bool $exception, object $exception_object, string $code, string $message, string $log_level, string $stack_trace = null)
     {
         $this->success = $success;
         $this->exception = $exception;
