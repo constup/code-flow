@@ -41,6 +41,11 @@ interface GenericFlowMessageInterface
     public function getLogLevel(): string;
 
     /**
+     * @return bool
+     */
+    public function isCaptureStackTrace(): bool;
+
+    /**
      * @return string
      */
     public function getStackTrace(): string;

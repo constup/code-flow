@@ -23,7 +23,9 @@ class GenericFlowMessage implements GenericFlowMessageInterface
     private $message = '';
     /** @var string */
     private $log_level;
-    /** @var string */
+    /** @var bool */
+    private $capture_stack_trace;
+    /** @var string string */
     private $stack_trace = '';
 
     /**
@@ -34,9 +36,9 @@ class GenericFlowMessage implements GenericFlowMessageInterface
      * @param string $code
      * @param string $message
      * @param string $log_level
-     * @param string $stack_trace
+     * @param bool $capture_stack_trace
      */
-    public function __construct(bool $success, bool $exception, object $exception_object, string $code, string $message, string $log_level, string $stack_trace = null)
+    public function __construct(bool $success, bool $exception, object $exception_object, string $code, string $message, string $log_level, bool $capture_stack_trace)
     {
         $this->success = $success;
         $this->exception = $exception;
@@ -44,7 +46,26 @@ class GenericFlowMessage implements GenericFlowMessageInterface
         $this->code = $code;
         $this->message = $message;
         $this->log_level = $log_level;
-        $this->stack_trace = $stack_trace;
+        $this->capture_stack_trace = $capture_stack_trace;
+        if ($capture_stack_trace === true) {
+            $this->stack_trace = $this->init_stack_trace();
+        }
+    }
+
+    /**
+     * @return string
+     */
+    private function init_stack_trace(): string
+    {
+        ob_start();
+        debug_print_backtrace();
+        $trace = ob_get_contents();
+        ob_end_clean();
+
+        $trace = preg_replace ('/^#0\s+' . __FUNCTION__ . "[^\n]*\n/", '', $trace, 1);
+        $trace = preg_replace ('/^#(\d+)/me', '\'#\' . ($1 - 1)', $trace);
+
+        return $trace;
     }
 
     /**
@@ -93,6 +114,14 @@ class GenericFlowMessage implements GenericFlowMessageInterface
     public function getLogLevel(): string
     {
         return $this->log_level;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCaptureStackTrace(): bool
+    {
+        return $this->capture_stack_trace;
     }
 
     /**
