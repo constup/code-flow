@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Constup\CodeFlow\Message;
 
@@ -27,18 +27,21 @@ class GenericFlowMessage implements GenericFlowMessageInterface
     private $capture_stack_trace;
     /** @var string string */
     private $stack_trace = '';
+    private $payload = null;
 
     /**
      * GenericFlowMessage constructor.
-     * @param bool $success
-     * @param bool $exception
-     * @param object $exception_object
-     * @param string $code
-     * @param string $message
-     * @param string $log_level
-     * @param bool $capture_stack_trace
+     *
+     * @param bool        $success
+     * @param bool        $exception
+     * @param object|null $exception_object
+     * @param string      $code
+     * @param string      $message
+     * @param string      $log_level
+     * @param bool        $capture_stack_trace
+     * @param $payload
      */
-    public function __construct(bool $success, bool $exception, object $exception_object, string $code, string $message, string $log_level, bool $capture_stack_trace)
+    public function __construct(bool $success, bool $exception, ?object $exception_object, string $code, string $message, string $log_level, bool $capture_stack_trace, $payload)
     {
         $this->success = $success;
         $this->exception = $exception;
@@ -50,22 +53,7 @@ class GenericFlowMessage implements GenericFlowMessageInterface
         if ($capture_stack_trace === true) {
             $this->stack_trace = $this->init_stack_trace();
         }
-    }
-
-    /**
-     * @return string
-     */
-    private function init_stack_trace(): string
-    {
-        ob_start();
-        debug_print_backtrace();
-        $trace = ob_get_contents();
-        ob_end_clean();
-
-        $trace = preg_replace ('/^#0\s+' . __FUNCTION__ . "[^\n]*\n/", '', $trace, 1);
-        $trace = preg_replace ('/^#(\d+)/me', '\'#\' . ($1 - 1)', $trace);
-
-        return $trace;
+        $this->payload = $payload;
     }
 
     /**
@@ -130,5 +118,23 @@ class GenericFlowMessage implements GenericFlowMessageInterface
     public function getStackTrace(): string
     {
         return $this->stack_trace;
+    }
+
+    public function getPayload()
+    {
+        return $this->payload;
+    }
+
+    /**
+     * @return string
+     */
+    private function init_stack_trace(): string
+    {
+        ob_start();
+        debug_print_backtrace();
+        $trace = ob_get_contents();
+        ob_end_clean();
+
+        return $trace;
     }
 }

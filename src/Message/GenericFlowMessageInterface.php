@@ -1,7 +1,8 @@
 <?php
 
-namespace Constup\CodeFlow\Message;
+declare(strict_types = 1);
 
+namespace Constup\CodeFlow\Message;
 
 /**
  * Class GenericFlowMessage
@@ -49,4 +50,6 @@ interface GenericFlowMessageInterface
      * @return string
      */
     public function getStackTrace(): string;
+
+    public function getPayload();
 }
