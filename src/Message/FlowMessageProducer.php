@@ -20,4 +20,14 @@ class FlowMessageProducer
     {
         return new GenericFlowMessage(true, false, null, 'SUCCESS', '', LogLevel::INFO, false, null);
     }
+
+    /**
+     * @param $payload
+     *
+     * @return GenericFlowMessageInterface
+     */
+    public function produceSuccessWithPayload($payload): GenericFlowMessageInterface
+    {
+        return new GenericFlowMessage(true, false, null, 'SUCCESS', 'Success.', LogLevel::INFO, false, $payload);
+    }
 }
