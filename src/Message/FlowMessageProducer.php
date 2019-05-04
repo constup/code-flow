@@ -26,7 +26,7 @@ class FlowMessageProducer
      *
      * @return GenericFlowMessageInterface
      */
-    public function produceSuccessWithPayload($payload): GenericFlowMessageInterface
+    public static function produceSuccessWithPayload($payload): GenericFlowMessageInterface
     {
         return new GenericFlowMessage(true, false, null, 'SUCCESS', 'Success.', LogLevel::INFO, false, $payload);
     }
